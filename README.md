@@ -1,6 +1,6 @@
 # GoPhish - Phishing URL Checker
 
-GoPhish is an advanced web-based tool designed to analyze and detect potentially harmful characteristics in URLs to assess their phishing threat level. This application leverages cutting-edge technologies and an extensive API to provide comprehensive, real-time URL analysis.
+GoPhish is a web-based tool designed to analyze and detect potentially harmful characteristics in URLs to assess their phishing threat level. This application leverages cutting-edge technologies and an extensive API to provide comprehensive, real-time URL analysis.
 
 ## Features
 
