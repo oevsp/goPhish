@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Ensures the proper rendering and touch zooming on mobile devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Title of the HTML page -->
+    <title>GoPhish - Phishing URL Checker</title>
+    <!-- Link to the external CSS for styling -->
+    <link rel="stylesheet" href="/styles/main.css">
+</head>
+<body>
+    <!-- Container div for better control over layout and styling -->
+    <div class="container">
+        <!-- Header element with a link to the home page; wraps the site title -->
+        <h1><a href="/">GoPhish - Phishing URL Checker</a></h1>
+        <!-- Form for user to submit a URL for phishing check -->
+        <form action="/check-url" method="POST">
+            <!-- Text input for URL, required field to ensure form isn't submitted empty -->
+            <input type="text" id="url" name="url" placeholder="Enter URL here" required>
+            <!-- Submission button for the form -->
+            <button type="submit">Check URL</button>
+        </form>
+
+        <!-- Server-side templating condition: checks if 'content' variable is not empty -->
+        <% if (content) { %>
+            <!-- Table structure for displaying the results in a formatted manner -->
+            <table class="results-table">
+                <!-- Server-side loop to iterate over each property in the 'content' object -->
+                <% for(const key in content) { %>
+                    <!-- Check if the property is an object and not null or an array -->
+                    <% if (typeof content[key] === 'object' && content[key] !== null && !Array.isArray(content[key])) { %>
+                        <!-- Nested loop for properties of an object within 'content' -->
+                        <% for (const subKey in content[key]) { %>
+                            <!-- Table row with a conditional class for highlighting suspicious items -->
+                            <tr class="<%= content[key][subKey] === true || content[key][subKey] === 'Risky Url' || content[key][subKey] === 'Suspicious' ? 'suspicious' : '' %>">
+                                <!-- Table data showing the property name, spaces added for readability -->
+                                <td><strong><%= subKey.replace(/_/g, ' ') %>:</strong></td>
+                                <!-- Table data showing the value of the property -->
+                                <td><%= content[key][subKey] %></td>
+                            </tr>
+                        <% } %>
+                    <% } else { %>
+                        <!-- Table row for properties that are not nested objects -->
+                        <tr class="<%= content[key] === true || content[key] === 'Risky Url' || content[key] === 'Suspicious' ? 'suspicious' : '' %>">
+                            <!-- Table data for the property name -->
+                            <td><strong><%= key.replace(/_/g, ' ') %>:</strong></td>
+                            <!-- Table data for the property value; if array, join elements with a comma -->
+                            <td><%= Array.isArray(content[key]) ? content[key].join(', ') : content[key] %></td>
+                        </tr>
+                    <% } %>
+                <% } %>
+            </table>
+        <% } %>
+    </div>
+</body>
+</html>
